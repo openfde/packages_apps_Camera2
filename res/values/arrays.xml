@@ -533,4 +533,14 @@
         <item>@drawable/shutter_button_background_still</item>
         <item>@drawable/shutter_button_background_still</item>
     </array>
+
+    <array name="mirror_icons" translatable="false">
+      <item>@drawable/ic_mirror_off</item>
+      <item>@drawable/ic_mirror_on</item>
+    </array>
+
+    <array name="mirror_descriptions" translatable="false">
+      <item>@string/mirror_off_desc</item>
+      <item>@string/mirror_on_desc</item>
+    </array>
 </resources>

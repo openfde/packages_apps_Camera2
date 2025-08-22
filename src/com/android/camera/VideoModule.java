@@ -566,6 +566,7 @@ public class VideoModule extends CameraModule
         bottomBarSpec.enableGridLines = true;
         bottomBarSpec.enableExposureCompensation = false;
         bottomBarSpec.isExposureCompensationSupported = false;
+        bottomBarSpec.enableMirror = true;
 
         if (isVideoCaptureIntent()) {
             bottomBarSpec.showCancel = true;

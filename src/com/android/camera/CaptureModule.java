@@ -815,6 +815,7 @@ public class CaptureModule extends CameraModule implements
         bottomBarSpec.isExposureCompensationSupported = mCameraCharacteristics
                 .isExposureCompensationSupported();
         bottomBarSpec.enableExposureCompensation = bottomBarSpec.isExposureCompensationSupported;
+        bottomBarSpec.enableMirror = true;
 
         // We must read the key from the settings because the button callback
         // is not executed until after this method is called.

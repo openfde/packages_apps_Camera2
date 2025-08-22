@@ -18,6 +18,7 @@ package com.android.camera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.SystemProperties;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,6 +32,8 @@ import com.android.camera.ui.RadioOptions;
 import com.android.camera.util.PhotoSphereHelper;
 import com.android.camera.widget.ModeOptions;
 import com.android.camera2.R;
+
+import java.lang.reflect.Method;
 
 /**
  * A  class for generating pre-initialized
@@ -50,6 +53,7 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
     public static final int BUTTON_GRID_LINES = 10;
     public static final int BUTTON_EXPOSURE_COMPENSATION = 11;
     public static final int BUTTON_COUNTDOWN = 12;
+    public static final int BUTTON_MIRROR = 13;
 
     /** For two state MultiToggleImageButtons, the off index. */
     public static final int OFF = 0;
@@ -67,6 +71,7 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
     private MultiToggleImageButton mButtonHdr;
     private MultiToggleImageButton mButtonGridlines;
     private MultiToggleImageButton mButtonCountdown;
+    private MultiToggleImageButton mButtonMirror;
 
     /** Intent UI buttons. */
     private ImageButton mButtonCancel;
@@ -157,6 +162,8 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
             = (MultiToggleImageButton) root.findViewById(R.id.hdr_plus_toggle_button);
         mButtonGridlines
             = (MultiToggleImageButton) root.findViewById(R.id.grid_lines_toggle_button);
+        mButtonMirror
+            = (MultiToggleImageButton) root.findViewById(R.id.mirror_toggle_button);
         mButtonCancel
             = (ImageButton) root.findViewById(R.id.cancel_button);
         mButtonDone
@@ -284,6 +291,11 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
                     throw new IllegalStateException("Countdown button could not be found.");
                 }
                 return mButtonCountdown;
+            case BUTTON_MIRROR:
+                if (mButtonMirror == null) {
+                    throw new IllegalStateException("Mirror button could not be found.");
+                }
+                return mButtonMirror;
             default:
                 throw new IllegalArgumentException("button not known by id=" + buttonId);
         }
@@ -371,6 +383,9 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
                 break;
             case BUTTON_COUNTDOWN:
                 initializeCountdownButton(button, cb, preCb, R.array.countdown_duration_icons);
+                break;
+            case BUTTON_MIRROR:
+                initializeMirrorButton(button, cb, preCb, R.array.mirror_icons);
                 break;
             default:
                 throw new IllegalArgumentException("button not known by id=" + buttonId);
@@ -1006,5 +1021,37 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
                 }
             }
         });
+    }
+
+    /**
+     * Initialize a mirror button.
+     */
+    private void initializeMirrorButton(MultiToggleImageButton button,
+            final ButtonCallback cb, final ButtonCallback preCb, int resIdImages) {
+
+        if (resIdImages > 0) {
+            button.overrideImageIds(resIdImages);
+        }
+        button.overrideContentDescriptions(R.array.mirror_descriptions);
+
+        setPreChangeCallback(button, preCb);
+
+        button.setOnStateChangeListener(new MultiToggleImageButton.OnStateChangeListener() {
+            @Override
+            public void stateChanged(View view, int state) {
+                try {
+                    Class<?> systemProperties = Class.forName("android.os.SystemProperties");
+                    Method set = systemProperties.getMethod("set", String.class, String.class);
+                    set.invoke(null, "persist.fde.mirror", state == 0 ? "false" : "true");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (cb != null) {
+                    cb.onStateChanged(state);
+                }
+            }
+        });
+        int index = SystemProperties.getBoolean("persist.fde.mirror", true) ? 1 : 0;
+        button.setState(index >= 0 ? index : 0, true);
     }
 }
