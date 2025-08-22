@@ -379,4 +379,6 @@
     <string name="pref_boolean_false" msgid="461317129020087333">"0"</string>
     <string name="pref_boolean_true" msgid="4131945223998878009">"1"</string>
     <string name="session_saving_image" msgid="8932315404486416826">"正在保存…"</string>
+    <string name="mirror_off_desc">"镜像已关闭"</string>
+    <string name="mirror_on_desc">"镜像已开启"</string>
 </resources>

@@ -386,6 +386,18 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
          */
         public boolean showReview;
 
+        /**
+         * Set true if mirror should be visible.  Not setting this
+         * causes mirror to be disabled.  This option is agnostic to
+         * the hardware.
+         */
+        public boolean enableMirror;
+
+        /**
+         * Set true if grid lines should not be visible.
+         */
+        public boolean hideMirror;
+
         /** Mode options callbacks */
 
         /**
@@ -2233,6 +2245,17 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
                     bottomBarSpec.reviewCallback,
                     R.drawable.ic_play,
                     R.string.review_button_description);
+        }
+
+        if (bottomBarSpec.hideMirror) {
+            // Force hide mirror icon.
+            buttonManager.hideButton(ButtonManager.BUTTON_MIRROR);
+        } else {
+            if (bottomBarSpec.enableMirror) {
+                buttonManager.initializeButton(ButtonManager.BUTTON_MIRROR, null);
+            } else {
+                buttonManager.disableButton(ButtonManager.BUTTON_MIRROR);
+            }
         }
     }
 

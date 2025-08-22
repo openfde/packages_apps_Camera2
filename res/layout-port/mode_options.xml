@@ -92,6 +92,11 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:alpha="0.0" >
+        <com.android.camera.MultiToggleImageButton
+            android:id="@+id/mirror_toggle_button"
+            style="@style/ModeOption"
+            camera:imageIds="@array/mirror_icons"
+            camera:contentDescriptionIds="@array/mirror_descriptions" />
         <ImageButton
             android:id="@+id/exposure_button"
             style="@style/ModeOption"

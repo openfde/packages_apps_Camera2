@@ -960,4 +960,8 @@
 
     <!-- Shown to the user while an image/video is being saved to disk. -->
     <string name="session_saving_image">Saving\u2026</string>
+
+    <!-- Accessibility text for mirror toggle button states [CHAR_LIMIT=NONE] -->
+    <string name="mirror_off_desc">Mirror off</string>
+    <string name="mirror_on_desc">Mirror on</string>
  </resources>
