@@ -1050,7 +1050,7 @@ public class ButtonManager implements SettingsManager.OnSettingChangedListener {
                 }
             }
         });
-        int index = SystemProperties.getBoolean("persist.fde.mirror", true) ? 1 : 0;
+        int index = SystemProperties.getBoolean("persist.fde.mirror", false) ? 1 : 0;//default to false base d3000m
         button.setState(index >= 0 ? index : 0, true);
     }
 }
