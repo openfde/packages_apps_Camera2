@@ -33,6 +33,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.view.Gravity;
 
 import com.android.camera.AccessibilityUtil;
 import com.android.camera.AnimationManager;
@@ -869,6 +870,21 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
         mModeCoverState = COVER_SHOWN;
     }
 
+    public void updateSurfaceSize(int width, int height){
+            int h = mCameraRootView.getMeasuredHeight();
+            int w = mCameraRootView.getMeasuredWidth();
+            Log.d(TAG, "updateSurfaceSize before:  w:" + w + " h:" + h);
+            if (w < h * width / height) {
+                h = w * height / width;
+            }
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mTextureView.getLayoutParams();
+            params.width = w;
+            params.height = h;
+            params.gravity = Gravity.CENTER;
+            mTextureView.setLayoutParams(params);
+            Log.d(TAG, "updateSurfaceSize after:  w:" + w + " h:" + h);
+    }
+
     /**
      * Creates a cling for the specific viewer and links the cling to the corresponding
      * button for layout position.
@@ -1314,6 +1330,7 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
         mTextureViewHelper.removePreviewAreaSizeChangedListener(listener);
     }
 
+    boolean inited = false;
     /**
      * This inflates generic_module layout, which contains all the shared views across
      * modules. Then each module inflates their own views in the given view group. For
@@ -1330,6 +1347,22 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
         mTextureViewHelper.setSurfaceTextureListener(this);
         mTextureViewHelper.setOnLayoutChangeListener(mPreviewLayoutChangeListener);
 
+        mTextureView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if(inited){
+                return;
+            }
+            inited = true;
+            int h = mCameraRootView.getMeasuredHeight();
+            int w = mCameraRootView.getMeasuredWidth();
+            if (w < h * 16 / 9) {
+                h = w * 9 / 16;
+            }
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mTextureView.getLayoutParams();
+            params.width = w;
+            params.height = h;
+            params.gravity = Gravity.CENTER;
+            mTextureView.setLayoutParams(params);
+        });
         mBottomBar = (BottomBar) mCameraRootView.findViewById(R.id.bottom_bar);
         int unpressedColor = mController.getAndroidContext().getResources()
             .getColor(R.color.camera_gray_background);

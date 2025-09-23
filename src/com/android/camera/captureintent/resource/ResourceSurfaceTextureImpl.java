@@ -106,7 +106,7 @@ public class ResourceSurfaceTextureImpl implements ResourceSurfaceTexture {
             mResourceConstructed.get().getMainThread().execute(new Runnable() {
                 @Override
                 public void run() {
-                    updatePreviewTransform();
+//                    updatePreviewTransform();
                 }
             });
         }
@@ -122,7 +122,7 @@ public class ResourceSurfaceTextureImpl implements ResourceSurfaceTexture {
         // Update preview transform when preview layout size is changed.
         if (!mPreviewLayoutSize.equals(previewLayoutSize)) {
             mPreviewLayoutSize = previewLayoutSize;
-            updatePreviewTransform();
+//            updatePreviewTransform();
         }
     }
 
