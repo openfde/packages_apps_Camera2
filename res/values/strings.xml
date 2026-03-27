@@ -964,4 +964,13 @@
     <!-- Accessibility text for mirror toggle button states [CHAR_LIMIT=NONE] -->
     <string name="mirror_off_desc">Mirror off</string>
     <string name="mirror_on_desc">Mirror on</string>
+
+    <!-- No camera UI strings -->
+    <string name="no_camera_title">No Camera Available</string>
+    <string name="no_camera_message">This device does not have camera hardware. Please connect a camera or turn on the physical camera switch.</string>
+
+    <string name="camera_disabled_title">Camera Disabled</string>
+    <string name="camera_disabled_message">Camera maybe have been disabled by system policies.</string>
+
+    <string name="camera_error_message">An error occurred while accessing the camera.</string>
  </resources>

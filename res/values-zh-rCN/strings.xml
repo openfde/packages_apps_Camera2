@@ -381,4 +381,9 @@
     <string name="session_saving_image" msgid="8932315404486416826">"正在保存…"</string>
     <string name="mirror_off_desc">"镜像已关闭"</string>
     <string name="mirror_on_desc">"镜像已开启"</string>
+    <string name="no_camera_title">没有摄像头可用</string>
+    <string name="no_camera_message">此设备没有摄像头硬件，请插入摄像头或者打开摄像头物理开关。</string>
+    <string name="camera_disabled_title">摄像头被禁用</string>
+    <string name="camera_disabled_message">摄像头可能被系统策略禁用</string>
+    <string name="camera_error_message">访问摄像头遇到未知错误</string>
 </resources>
