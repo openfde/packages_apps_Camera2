@@ -138,6 +138,7 @@ import com.android.camera.ui.PreviewStatusListener;
 import com.android.camera.util.ApiHelper;
 import com.android.camera.util.Callback;
 import com.android.camera.util.CameraUtil;
+import com.android.camera.util.CameraAvailabilityChecker;
 import com.android.camera.util.GalleryHelper;
 import com.android.camera.util.GcamHelper;
 import com.android.camera.util.GoogleHelpHelper;
@@ -1416,6 +1417,16 @@ public class CameraActivity extends QuickActivity
             finish();
             return;
         }
+
+        CameraAvailabilityChecker.CameraAvailabilityResult cameraResult =
+            CameraAvailabilityChecker.checkCameraAvailability(this);
+        if (!cameraResult.isAvailable()) {
+            Log.w(TAG, "Camera not available: " + cameraResult.getMessage());
+            NoCameraActivity.start(this, cameraResult);
+            finish();
+            return;
+        }
+
         profile.mark();
         if (!Glide.isSetup()) {
             Context context = getAndroidContext();
